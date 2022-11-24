@@ -55,4 +55,21 @@ public class ABB {
     public void setFather(ABB father) {
         this.father = father;
     }
+
+
+    //métodos
+    public String inorder() throws UnsupportedOperationException{
+        String left= "";
+        String raiz= "";
+        String right= "";
+        if(this.getLeftChild() != null) {
+            left= this.LeftChild.inorder() + " ";
+        }
+        raiz+= this.getValue();
+        if(this.getRightChild() != null){
+            right= " " + this.RightChild.inorder();
+        }
+        return left + raiz + right;
+
+    }
 }
