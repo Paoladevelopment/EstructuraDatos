@@ -12,6 +12,11 @@ public class ABB {
         this.father= null;
     }
 
+    public ABB(int value, ABB father){
+        this.value= value;
+        this.father= father;
+    }
+
     //constructor completo
 
     public ABB(int value, ABB leftChild, ABB rightChild, ABB father) {
@@ -58,7 +63,7 @@ public class ABB {
 
 
     //métodos
-    public String inorder() throws UnsupportedOperationException{
+    public String inorder(){
         String left= "";
         String raiz= "";
         String right= "";
@@ -71,5 +76,65 @@ public class ABB {
         }
         return left + raiz + right;
 
+    }
+
+    //se insertan numeros al arbol binario de búsqueda.
+    public void insert(int number){
+        if(this.getValue() <= number){
+            if(this.getRightChild() ==null){
+                this.setRightChild(new ABB(number, this));
+            }else{
+                this.getRightChild().insert(number);
+            }
+        } else{
+            if(this.getLeftChild() ==null){
+                this.setLeftChild(new ABB(number, this));
+            }else{
+                this.getLeftChild().insert(number);
+            }
+        }
+    }
+    //Retorna si cierto elemento se encuentra o no en el árbol de búsqueda binaria
+    public boolean Search(int number){
+
+        if(this.getValue() == number){
+            return true;
+        }else {
+            if (this.getValue() < number) {
+                if (this.getRightChild() != null) {
+                    return this.getRightChild().Search(number);
+                }
+            } else {
+                if (this.getLeftChild() != null) {
+                    return this.getLeftChild().Search(number);
+                }
+            }
+        }
+        return false;
+    }
+
+    //Retorna el número más grande de nuestro ABB
+    public int maximum() throws UnsupportedOperationException{
+        ABB actualTree= this;
+        while (actualTree.getRightChild() !=null){
+            actualTree= actualTree.getRightChild();
+        }
+        return  actualTree.getValue();
+    }
+    //Retorna el número más pequeño de nuestro ABB
+    public int minimum() throws UnsupportedOperationException{
+        ABB actualTree= this;
+        while (actualTree.getLeftChild() !=null){
+            actualTree= actualTree.getLeftChild();
+        }
+        return  actualTree.getValue();
+    }
+
+    public ABB minimumABB(){
+        ABB actualTree= this;
+        while (actualTree.getLeftChild() !=null){
+            actualTree= actualTree.getLeftChild();
+        }
+        return  actualTree;
     }
 }
