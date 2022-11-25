@@ -17,6 +17,7 @@ public class ABB {
         this.father= father;
     }
 
+
     //constructor completo
 
     public ABB(int value, ABB leftChild, ABB rightChild, ABB father) {
@@ -113,6 +114,28 @@ public class ABB {
         return false;
     }
 
+    //Retorna el arbol siendo raíz del valor buscado
+    public ABB SearchABB(int number) throws NullPointerException{
+
+        if(this.getValue() == number){
+            return this;
+        }else {
+            if (this.getValue() < number) {
+                if (this.getRightChild() != null) {
+                    return this.getRightChild().SearchABB(number);
+                }else{
+                    throw new NullPointerException();
+                }
+            } else {
+                if (this.getLeftChild() != null) {
+                    return this.getLeftChild().SearchABB(number);
+                }else{
+                    throw new NullPointerException();
+                }
+            }
+        }
+    }
+
     //Retorna el número más grande de nuestro ABB
     public int maximum() throws UnsupportedOperationException{
         ABB actualTree= this;
@@ -136,5 +159,44 @@ public class ABB {
             actualTree= actualTree.getLeftChild();
         }
         return  actualTree;
+    }
+
+    public int successorWInorder(int num){
+        String[] treeSearchArray= this.inorder().split(" ");
+        for (int i= 0; i< treeSearchArray.length; i++){
+            if (Integer.parseInt(treeSearchArray[i]) > num){
+                return Integer.parseInt(treeSearchArray[i]);
+            }
+        }
+        return -1;
+    }
+
+    public ABB successorWInorderABB(int num){
+        String[] treeSearchArray= this.inorder().split(" ");
+
+
+        for (int i= 0; i< treeSearchArray.length; i++){
+            if (Integer.parseInt(treeSearchArray[i]) > num){
+                return this.SearchABB(Integer.parseInt(treeSearchArray[i]));
+            }
+        }
+        return null;
+    }
+
+    //ahora un método para obtener el sucesor pero usando la siguiente estrategia:
+    //1) si el nodo al que se va a buscar el sucesor tiene hijo derecho, el sucesor es el minimo del hijo derecho
+    //2) si no tiene hijo derecho, es el ancestro cuyo hijo izquierdo es ancestro del nodo actual. Entonces vamos intercambiando el nodo actual por el padre de este hasta que sea hijo izquierdo.
+    public ABB successor(int num){
+        ABB currentNode= this.SearchABB(num);
+        if(currentNode.getRightChild() !=null){
+            return currentNode.getRightChild().minimumABB();
+        }else {
+            ABB fatherOfCurrentNode= currentNode.getFather();
+            while (fatherOfCurrentNode !=null && currentNode == fatherOfCurrentNode.getRightChild()){
+                currentNode= fatherOfCurrentNode;
+                fatherOfCurrentNode= currentNode.getFather();
+            }
+            return  fatherOfCurrentNode;
+        }
     }
 }

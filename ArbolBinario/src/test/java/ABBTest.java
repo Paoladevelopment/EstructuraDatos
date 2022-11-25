@@ -78,4 +78,56 @@ public class ABBTest {
         raiz2.insert(24);
         assertEquals(raiz2.minimumABB(), raiz2);
     }
+
+    @Test
+    public void SearchABBTest(){
+        ABB raiz= new ABB(50);
+        raiz.insert(20);
+        raiz.insert(12);
+        raiz.insert(30);
+        raiz.insert(60);
+        raiz.insert(70);
+        assertEquals(raiz.SearchABB(70), raiz.getRightChild().getRightChild());
+    }
+
+    @Test
+    public void SuccessorWInorderTest(){
+        ABB raiz= new ABB(50);
+        raiz.insert(20);
+        raiz.insert(12);
+        raiz.insert(30);
+        raiz.insert(60);
+        raiz.insert(70);
+        assertEquals(raiz.successorWInorder(30),50 );
+        assertEquals(raiz.successorWInorder(70),-1);
+    }
+
+    @Test
+    public void SuccessorWInorderABBTest(){
+        ABB raiz= new ABB(50);
+        raiz.insert(20);
+        raiz.insert(12);
+        raiz.insert(30);
+        raiz.insert(60);
+        raiz.insert(70);
+        assertEquals(raiz.successorWInorderABB(30),raiz);
+        assertEquals(raiz.successorWInorderABB(20),raiz.getLeftChild().getRightChild());
+        assertEquals(raiz.successorWInorderABB(70), null);
+    }
+
+    @Test
+    public void SuccessorTest(){
+        ABB raiz= new ABB(50);
+        raiz.insert(20);
+        raiz.insert(12);
+        raiz.insert(30);
+        raiz.insert(60);
+        raiz.insert(70);
+        assertEquals(raiz.successor(30),raiz);
+        assertEquals(raiz.successor(20),raiz.getLeftChild().getRightChild());
+        assertEquals(raiz.successor(70), null);
+    }
+
+
+
 }
